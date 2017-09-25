@@ -25,10 +25,16 @@ print("\n*** *** PROJECT 2 *** ***\n")
 #########
 
 
-## You can search for a variety of different types of media with the iTunes Search API: songs, movies, ebooks and audiobooks... (and more) You'll definitely need to check out the documentation to understand/recall how the parameters of this API work: https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/
+## You can search for a variety of different types of media with the iTunes Search API: songs, movies, ebooks and audiobooks...
+## (and more) You'll definitely need to check out the documentation to understand/recall
+## how the parameters of this API work: https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/
 
-## Here, we've provided functions to get and cache data from the iTunes Search API, but looking at the information in that documentation will help you understand what is happening when the second function below gets invoked. 
-## Make sure you understand what the function does, how it works, and how you could invoke it to get data from iTunes Search about e.g. just songs corresponding to a certain search term, just movies, or just books. 
+## Here, we've provided functions to get and cache data from the iTunes Search API,
+## but looking at the information in that documentation will help you understand
+## what is happening when the second function below gets invoked. 
+## Make sure you understand what the function does, how it works,
+## and how you could invoke it to get data from iTunes Search about
+## e.g. just songs corresponding to a certain search term, just movies, or just books. 
 ## Refer to the textbook sections about caching, linked above, to help understand these functions!
 
 ## You may want to try them out and see what data gets returned, in order to complete the problems in this project.
@@ -73,7 +79,8 @@ print("\n***** PROBLEM 1 *****\n")
 ## For problem 1, you should define a class Media, representing ANY piece of media you can find on iTunes search. 
 
 
-## The Media class constructor should accept one dictionary data structure representing a piece of media from iTunes as input to the constructor.
+## The Media class constructor should accept one dictionary data structure representing a piece of media from iTunes
+## as input to the constructor.
 ## It should instatiate at least the following instance variables:
 ## - title
 ## - author
@@ -82,10 +89,33 @@ print("\n***** PROBLEM 1 *****\n")
 
 ## The Media class should also have the following methods:
 ## - a special string method, that returns a string of the form 'TITLE by AUTHOR'
-## - a special representation method, which returns "ITUNES MEDIA: <itunes id>" with the iTunes id number for the piece of media (e.g. the track) only in place of "<itunes id>"
-## - a special len method, which, for the Media class, returns 0 no matter what. (The length of an audiobook might mean something different from the length of a song, depending on how you want to define them!)
-## - a special contains method (for the in operator) which takes one additional input, as all contains methods must, which should always be a string, and checks to see if the string input to this contains method is INSIDE the string representing the title of this piece of media (the title instance variable)
+## - a special representation method, which returns "ITUNES MEDIA: <itunes id>" with the iTunes id number for the piece of media
+## (e.g. the track) only in place of "<itunes id>"
+## - a special len method, which, for the Media class, returns 0 no matter what.
+## (The length of an audiobook might mean something different from the length of a song, depending on how you want to define them!)
+## - a special contains method (for the in operator) which takes one additional input,
+## as all contains methods must, which should always be a string,
+## and checks to see if the string input to this contains method is
+## INSIDE the string representing the title of this piece of media (the title instance variable)
+class Media(object):
+    def __init__(self,dict_data):
+        self.title=dict_data.get("trackName")
+        self.author=dict_data.get("artistName")
+        self.itunes_URL=dict_data.get("trackViewUrl")
+        self.itunes_id=dict_data.get("trackId")
 
+    def __str__(self):
+        return "{} by {}".format(self.title,self.author)
+
+    def __repr(self):
+        return "ITUNES MEDIA: {}".format(self.itunes_id)
+
+    def __len__(self):
+        return 0
+
+    def __contains__(self,str_input):
+        assert(isinstance(str_input,str))
+        return str_input in self.title
 
 
 ## [PROBLEM 2] [400 POINTS]
