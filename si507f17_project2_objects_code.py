@@ -143,11 +143,11 @@ print("\n***** PROBLEM 2 *****\n")
 class Song(Media):
     def __init__(self,dict_data):
         super(Song,self).__init__(dict_data)
-        self.album=dict_data["collectionName"]
-        self.track_number=dict_data["collectionId"]
-        self.genre=dict_data["primaryGenreName"]
+        self.album=dict_data.get("collectionName")
+        self.track_number=dict_data.get("trackNumber")
+        self.genre=dict_data.get("primaryGenreName")
         # define an extra attribute for __len__()'s use
-        self.trackTimeMillis=dict_data["trackTimeMillis"]
+        self.trackTimeMillis=dict_data.get("trackTimeMillis",0)
 
     def __len__(self):
         return int(self.trackTimeMillis/1000)
@@ -169,7 +169,30 @@ class Song(Media):
 ## - Should have an additional method called title_words_num that returns an integer representing
 ## the number of words in the movie description. If there is no movie description, this method should return 0.
 
+class Movie(Media):
+    def __init__(self, dict_data):
+        super(Movie,self).__init__(dict_data)
+        self.rating=dict_data.get("contentAdvisoryRating")
+        self.genre=dict_data.get("primaryGenreName")
+        if "longDescription" not in dict_data:
+            self.description=None
+        elif (dict_data["longDescription"] in ("",None,"N/A")):
+            self.description=None
+        else:
+            # ??? unicode problem
+            self.description=dict_data["longDescription"].encode("utf-8")
+        # define an extra attribute for __len__()'s use        
+        self.trackTimeMillis=dict_data.get("trackTimeMillis")
 
+    def __len__(self):
+        return int(self.trackTimeMillis/1000/60)
+
+    def title_words_num(self):
+        if self.description==None:
+            return 0
+        else:
+            return len(self.decription.split(" "))
+        
 
 ## [PROBLEM 3] [150 POINTS]
 print("\n***** PROBLEM 3 *****\n")
@@ -178,7 +201,8 @@ print("\n***** PROBLEM 3 *****\n")
 
 ## First, here we have provided some variables which hold data about media overall, songs, and movies.
 
-## NOTE: (The first time you run this file, data will be cached, so the data saved in each variable will be the same each time you run the file, as long as you do not delete your cached data.)
+## NOTE: (The first time you run this file, data will be cached, so the data saved in each variable will be
+## the same each time you run the file, as long as you do not delete your cached data.)
 
 media_samples = sample_get_cache_itunes_data("love")["results"]
 
@@ -186,10 +210,11 @@ song_samples = sample_get_cache_itunes_data("love","music")["results"]
 
 movie_samples = sample_get_cache_itunes_data("love","movie")["results"]
 
+## You may want to do some investigation on these variables to
+## make sure you understand correctly what type of value they hold, what's in each one!
 
-## You may want to do some investigation on these variables to make sure you understand correctly what type of value they hold, what's in each one!
-
-## Use the values in these variables above, and the class definitions you've written, in order to create a list of each media type, including "media" generally. 
+## Use the values in these variables above, and the class definitions you've written,
+## in order to create a list of each media type, including "media" generally. 
 
 ## You should end up with: a list of Media objects saved in a variable media_list, 
 ## a list of Song objects saved in a variable song_list, 
@@ -197,8 +222,15 @@ movie_samples = sample_get_cache_itunes_data("love","movie")["results"]
 
 ## You may use any method of accumulation to make that happen.
 
-
-
+song_list=[]
+movie_list=[]
+media_list=[]
+for media in media_samples:
+    media_list.append(Media(media))
+for song in song_samples:
+    song_list.append(Song(song))
+for movie in movie_samples:
+    movie_list.append(Movie(movie))
 
 ## [PROBLEM 4] [200 POINTS]
 print("\n***** PROBLEM 4 *****\n")
