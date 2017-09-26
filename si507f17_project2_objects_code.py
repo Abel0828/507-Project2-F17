@@ -126,7 +126,8 @@ print("\n***** PROBLEM 2 *****\n")
 ## class Song
 ## class Movie
 
-## In the class definitions, you can assume a programmer would pass to each class's constructor only a dictionary that represented the correct media type (song, movie).
+## In the class definitions, you can assume a programmer would pass to each class's constructor only a dictionary that
+## represented the correct media type (song, movie).
 
 ## Below follows a description of how each of these should be different from the Media parent class.
 
@@ -137,8 +138,19 @@ print("\n***** PROBLEM 2 *****\n")
 ## - track_number (the number representing its track number on the album)
 ## - genre (the primary genre name from the data iTunes gives you)
 
-## Should have the len method overridden to return the number of seconds in the song. (HINT: The data supplies number of milliseconds in the song... How can you access that data and convert it to seconds?)
+## Should have the len method overridden to return the number of seconds in the song.
+## (HINT: The data supplies number of milliseconds in the song... How can you access that data and convert it to seconds?)
+class Song(Media):
+    def __init__(self,dict_data):
+        super(Song,self).__init__(dict_data)
+        self.album=dict_data["collectionName"]
+        self.track_number=dict_data["collectionId"]
+        self.genre=dict_data["primaryGenreName"]
+        # define an extra attribute for __len__()'s use
+        self.trackTimeMillis=dict_data["trackTimeMillis"]
 
+    def __len__(self):
+        return int(self.trackTimeMillis/1000)
 
 
 ### class Movie:
@@ -146,12 +158,16 @@ print("\n***** PROBLEM 2 *****\n")
 ## Should have the following additional instance variables:
 ## - rating (the content advisory rating, from the data)
 ## - genre
-## - description (if none, the value of this instance variable should be None) -- NOTE that this might cause some string encoding problems for you to debug!
-## HINT: Check out the Unicode sub-section of the textbook! This is a common type of Python debugging you'll encounter with real data... but using the right small amount of code to fix it will solve all your problems. 
+## - description (if none, the value of this instance variable should be None) -- NOTE that
+## this might cause some string encoding problems for you to debug!
+## HINT: Check out the Unicode sub-section of the textbook! This is a common type of Python debugging you'll encounter with real data
+## ... but using the right small amount of code to fix it will solve all your problems. 
 
-## Should have the len method overridden to return the number of minutes in the movie (HINT: The data returns the number of milliseconds in the movie... how can you convert that to minutes?)
+## - Should have the len method overridden to return the number of minutes in the movie
+## (HINT: The data returns the number of milliseconds in the movie... how can you convert that to minutes?)
 
-## Should have an additional method called title_words_num that returns an integer representing the number of words in the movie description. If there is no movie description, this method should return 0.
+## - Should have an additional method called title_words_num that returns an integer representing
+## the number of words in the movie description. If there is no movie description, this method should return 0.
 
 
 
