@@ -107,7 +107,7 @@ class Media(object):
     def __str__(self):
         return "{} by {}".format(self.title,self.author)
 
-    def __repr(self):
+    def __repr__(self):
         return "ITUNES MEDIA: {}".format(self.itunes_id)
 
     def __len__(self):
