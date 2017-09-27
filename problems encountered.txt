@@ -1,7 +1,0 @@
-1.is it a good idea to quote all the {} that might be later filled in with a string containing commas? A problem is that my MS excel does not know to hide the commas of some columns.
-
-2.positional arguments and keyword arguments?
-
-3.about inheritance: using load() to avoid __init__ overloading? problem: cannot inherit twice
-
-4
