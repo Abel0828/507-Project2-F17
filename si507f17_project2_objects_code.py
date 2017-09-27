@@ -182,7 +182,7 @@ class Movie(Media):
             # ??? unicode problem
             self.description=dict_data["longDescription"].encode("utf-8")
         # define an extra attribute for __len__()'s use        
-        self.trackTimeMillis=dict_data.get("trackTimeMillis")
+        self.trackTimeMillis=dict_data.get("trackTimeMillis",0)
 
     def __len__(self):
         return int(self.trackTimeMillis/1000/60)
@@ -247,24 +247,43 @@ print("\n***** PROBLEM 4 *****\n")
 # - url (for the itunes url of that thing -- the url to view that track of media on iTunes) 
 # - length 
 
-## There are no provided tests for this problem -- you should check your CSV files to see that they fit this description to see if this problem worked correctly for you. IT IS VERY IMPORTANT THAT YOUR CSV FILES HAVE EXACTLY THOSE NAMES!
+## There are no provided tests for this problem
+## -- you should check your CSV files to see that they fit this description to see if this problem worked correctly for you.
+## IT IS VERY IMPORTANT THAT YOUR CSV FILES HAVE EXACTLY THOSE NAMES!
 
-## You should use the variables you defined in problem 3, iteration, and thought-out use of accessing elements of a class instance, to complete this!
+## You should use the variables you defined in problem 3, iteration, and thought-out use of accessing elements of a class instance,
+## to complete this!
 
-## HINT: You may want to think about what code could be generalized here, and what couldn't, and write a function or two -- that might make your programming life a little bit easier in the end, even though it will require more thinking at the beginning! But you do not have to do this.
+## HINT: You may want to think about what code could be generalized here, and what couldn't, and write a function or two
+## -- that might make your programming life a little bit easier in the end,
+## even though it will require more thinking at the beginning! But you do not have to do this.
 
 ## HINT #2: *** You MAY add other, non-required, methods to the class definitions in order to make this easier, if you prefer to! 
 
-## It is perfectly fine to write this code in any way, as long as you rely on instances of the classes you've defined, and the code you write results in 3 correctly formatted CSV files!
+## It is perfectly fine to write this code in any way, as long as you rely on instances of the classes you've defined,
+# and the code you write results in 3 correctly formatted CSV files!
 
 ## HINT #3: Check out the sections in the textbook on opening and writing files, and the section(s) on CSV files!
 
 ## HINT #4: Write or draw out your plan for this before you actually start writing the code! That will make it much easier.
 
+with open("media.csv",'w',newline='') as output:
+    output.write("title, artist, id, url, length\n")
+    for media in media_list:
+        row_tuple=(media.title,media.author,media.itunes_id,media.itunes_URL,len(media))
+        output.write('"{}", {}, {}, {}, {}\n'.format(*row_tuple))
+    
+with open("movies.csv",'w',newline='') as output:
+    output.write("title, artist, id, url, length\n")
+    for movie in movie_list:
+        row_tuple=(movie.title,movie.author,movie.itunes_id,movie.itunes_URL,len(movie))
+        output.write('"{}", {}, {}, {}, {}\n'.format(*row_tuple))
 
-
-
-
+with open("songs.csv",'w',newline='') as output:
+    output.write("title, artist, id, url, length\n")
+    for song in song_list:
+        row_tuple=(song.title,song.author,song.itunes_id,song.itunes_URL,len(song))
+        output.write('"{}", {}, {}, {}, {}\n'.format(*row_tuple))
 
 
 
